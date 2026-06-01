@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GIS TOOLS</title>
+  <link rel="stylesheet" href="./signup_login/signup_modal.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,300..800;1,300..800&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
@@ -211,7 +212,7 @@
         <div class="brand"><a class="brand-link" href="./index.html">GIS PROJECT</a></div>
       </div>
       <div class="actions">
-        <a class="btn" href="#">SIGNUP</a>
+        <a class="btn" id="signupBtn" href="#">SIGNUP</a>
         <a class="btn" href="#">LOGIN</a>
       </div>
     </header>
@@ -241,6 +242,34 @@
         <iframe class="panel-frame" id="boqFrame" title="BOQ Converter"></iframe>
       </section>
     </main>
+  </div>
+
+  <div class="signup-modal" id="signupModal" aria-hidden="true">
+    <div class="signup-panel" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+      <div class="signup-header">
+        <div class="signup-title" id="signupTitle">GIS TOOLS SIGNUP</div>
+        <button class="signup-close" type="button" id="signupClose" aria-label="Close">X</button>
+      </div>
+      <form class="signup-form" id="signupForm">
+        <div>
+          <label class="signup-label" for="signupEmail">Email</label>
+          <input class="signup-input" id="signupEmail" type="email" placeholder="name@email.com" required />
+        </div>
+        <div>
+          <label class="signup-label" for="signupPassword">Password</label>
+          <input class="signup-input" id="signupPassword" type="password" placeholder="At least 6 characters" required />
+        </div>
+        <div>
+          <label class="signup-label" for="signupConfirmPassword">Confirm Password</label>
+          <input class="signup-input" id="signupConfirmPassword" type="password" placeholder="Repeat password" required />
+        </div>
+        <div class="signup-error" id="signupError"></div>
+        <div class="signup-actions">
+          <button class="signup-primary" type="submit">CREATE ACCOUNT</button>
+          <div class="signup-secondary">Already have an account? Login</div>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -322,5 +351,6 @@
       window.addEventListener("DOMContentLoaded", setViewByHash);
     })();
   </script>
+  <script src="./signup_login/signup_modal.js"></script>
 </body>
 </html>
