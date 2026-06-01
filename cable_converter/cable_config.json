@@ -1,0 +1,30 @@
+{
+  "line_names": [
+    "CABLE LINE A",
+    "CABLE LINE B",
+    "CABLE LINE C",
+    "CABLE LINE D",
+    "CABLE LINE E",
+    "CABLE LINE F",
+    "CABLE LINE G",
+    "CABLE LINE H",
+    "CABLE LINE I",
+    "CABLE LINE J",
+    "SUBFEEDER CABLE",
+    "HUBFEEDER CABLE",
+    "MAINFEEDER CABLE"
+  ],
+  "cable_types": [
+    "FO 24C/2T",
+    "FO 36C/3T",
+    "FO 48C/4T",
+    "FO 96C/8T",
+    "FO 144C/12T",
+    "FO 288C/24T"
+  ],
+  "cable_categories": [
+    "AE - Aerial",
+    "UG - Underground",
+    "SUB - Submarine"
+  ]
+}

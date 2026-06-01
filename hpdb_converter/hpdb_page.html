@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HPDB Converter</title>
+  <link rel="stylesheet" href="./css/hpdb_page.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="wrap">
+      <section class="status-panel" aria-label="Status Proses">
+        <div class="status-head">
+          <div>
+            <div class="status-title" id="statusText">Siap menerima file KMZ.</div>
+            <div class="status-subtitle" id="statusDetail">Belum ada sesi aktif.</div>
+          </div>
+          <div class="status-badge tone-idle" id="statusBadge">IDLE</div>
+        </div>
+        <div class="status-track" aria-hidden="true">
+          <div class="status-fill" id="statusBarFill"></div>
+        </div>
+      </section>
+
+      <section class="box" aria-label="Source KMZ">
+        <label class="label" for="sourcePath">SOURCE KMZ :</label>
+        <div class="row">
+          <input id="sourcePath" class="input" type="text" readonly />
+          <button class="btn" type="button" id="btnBrowse">Browse</button>
+          <input id="fileInput" type="file" accept=".kmz,.zip,.kml" hidden />
+        </div>
+        <button class="download step-action" type="button" id="btnStep1">RUN STEP 1</button>
+      </section>
+
+      <section class="sync" aria-label="Synchronization">
+        <div class="sync-title">Synchronization</div>
+        <div class="sync-sub">Basic file (path jangan di edit)</div>
+        <input id="basicFile" class="sync-input" type="text" readonly />
+        <button class="download step-action" type="button" id="btnStep2">RUN STEP 2</button>
+        <button class="download step-action step-spaced" type="button" id="btnStep3">RUN STEP 3</button>
+      </section>
+
+      <div class="log-head">
+        <div class="log-title">Log Report :</div>
+        <button class="reset" type="button" id="resetLog">RESET</button>
+      </div>
+
+      <div class="log-box" id="logBox" aria-label="Log Report"></div>
+
+      <div class="downloads">
+        <button class="download" type="button" id="btnDownloadStep1">Download Hasil Konversi</button>
+        <button class="download" type="button" id="btnDownloadFinal">Download Final HPDB</button>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

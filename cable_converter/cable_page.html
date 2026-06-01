@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cable Converter - GIS Project</title>
+  <link rel="stylesheet" href="./cable_converter.css" />
+  <script src="./cable_converter.js" defer></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('embed') === '1') {
+        document.documentElement.classList.add('embed-mode');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div style="display:inline-flex; align-items:center;">
+        <div class="dots" aria-hidden="true">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="brand"><a class="brand-link" href="../index.html#tutorial">GIS PROJECT</a></div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#">SIGNUP</a>
+        <a class="btn" href="#">LOGIN</a>
+      </div>
+    </header>
+
+    <nav class="menu" aria-label="Menu">
+      <a class="menu-item" href="../index.html#tutorial">TUTORIAL</a>
+      <a class="menu-item active" href="./cable_page.html">CABLE CONVERTER</a>
+      <a class="menu-item" href="../index.html#hpdb">HPDB CONVERTER</a>
+      <a class="menu-item" href="../index.html#boq">BOQ CONVERTER</a>
+      <a class="menu-item" href="../index.html#boundary">BOUNDARY AREA</a>
+      <a class="menu-item" href="../index.html#fdt">FDT AREA</a>
+      <a class="menu-item" href="../index.html#fat">FAT AREA</a>
+      <a class="menu-item" href="../index.html#line">LINE AREA</a>
+    </nav>
+
+    <main class="content">
+      <section class="tool" aria-label="Cable Converter">
+        <div class="form-grid">
+          <div class="label">Line Name:</div>
+          <select class="field" id="lineName" aria-label="Line Name"></select>
+          <div></div>
+
+          <div class="label">OLT Code:</div>
+          <input class="field" id="oltCode" type="text" aria-label="OLT Code" />
+          <div></div>
+
+          <div class="label">Cable Type:</div>
+          <select class="field" id="cableType" aria-label="Cable Type"></select>
+          <div></div>
+
+          <div class="label">Category:</div>
+          <select class="field" id="category" aria-label="Category"></select>
+          <div></div>
+
+          <div class="label">Total Route (M):</div>
+          <input class="field" id="route" type="number" min="0" inputmode="decimal" aria-label="Total Route" />
+          <div></div>
+
+          <div class="label">Slack FDT:</div>
+          <input class="field" id="slackFdt" type="number" min="0" step="1" inputmode="numeric" aria-label="Slack FDT" />
+          <div></div>
+
+          <div class="label">Slack FAT/SF/MF:</div>
+          <input class="field" id="slackFat" type="number" min="0" step="1" inputmode="numeric" aria-label="Slack FAT/SF/MF" />
+          <div></div>
+
+          <div class="label">FDT Code:</div>
+          <input class="field" id="fdtCode" type="text" aria-label="FDT Code" />
+          <div></div>
+
+          <div class="label">Segment:</div>
+          <input class="field" id="segment" type="text" aria-label="Segment" />
+          <div></div>
+        </div>
+
+        <div class="actions-row">
+          <button class="tool-btn" id="generateBtn" type="button" disabled>Generate Report</button>
+          <button class="tool-btn" id="clearBtn" type="button">Clear</button>
+        </div>
+
+        <div class="calculated">Calculated:</div>
+        <textarea class="output" id="output" aria-label="Calculated output" readonly></textarea>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

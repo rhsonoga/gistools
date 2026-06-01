@@ -1,0 +1,83 @@
+Checkpoint 6 - Rekap Audit Web_Tools (2026-06-01)
+
+Status umum:
+- Workspace D:/web_tools berfungsi sebagai shell web untuk tiga converter utama: HPDB, BOQ, dan CABLE.
+- Server utama memakai Flask di app.py dan melayani index.html sebagai shell utama.
+- BOQ kini punya web API terintegrasi dan route UI khusus (/boq).
+
+Ringkasan struktur folder:
+- Root: app.py, index.html, path_utils.py, requirements.txt, checkpoint-5.txt, checkpoint-6.txt, plus folder converter.
+- hpdb_converter/: backend HPDB, UI HPDB (hpdb_page.html), CSS/JS modular, assets, dan engine terkait.
+- boq_converter/: core BOQ, UI BOQ (boq_page.html), API web (web_api.py), assets workbook, JS modular.
+- cable_converter/: UI CABLE (cable_page.html), CSS, JS, dan config converter.
+- scripts/: hpdb_smoke_test.py untuk uji cepat HPDB.
+
+Ringkasan file per modul:
+- Root:
+	- app.py (server Flask utama, route HPDB + BOQ)
+	- index.html (shell UI dan iframe panel)
+	- path_utils.py (helper path/temporary folder)
+	- requirements.txt (dependency Flask)
+- hpdb_converter/:
+	- engine.py, session_engine.py (logika HPDB core)
+	- injector.py, column_sync.py, template_loader.py (proses injeksi)
+	- hpdb_page.html (UI)
+	- css/hpdb_page.css, js/* (UI modular)
+	- assets/* (template)
+- boq_converter/:
+	- main.py (orchestrator convert)
+	- bom_input.py (injeksi template)
+	- core/* (parser/aggregator/data_model/material_classifier)
+	- exporter/excel_writer.py, utils/text_utils.py
+	- web_api.py (API BOQ)
+	- boq_page.html (UI) + js/* (UI modular)
+	- assets/* (template)
+- cable_converter/:
+	- cable_page.html, cable_converter.css, cable_converter.js
+	- cable_config.json
+
+HPDB Converter:
+- Endpoint di app.py: /api/session, /api/session/<id>/step/1..3, /api/session/<id>/download/<kind>, /api/session/<id>/reset.
+- Session HPDB menggunakan folder temp per sesi.
+- UI HPDB tetap di hpdb_converter/hpdb_page.html.
+
+BOQ Converter:
+- Web API tersedia di boq_converter/web_api.py dan terdaftar di app.py dengan prefix /api/boq.
+- UI BOQ tersedia via /boq dan juga di index shell (iframe).
+- Alur konversi tetap: parse KMZ -> agregasi -> export Excel sementara -> injeksi template.
+- GUI desktop berbasis Tkinter sudah dihapus setelah migrasi ke web.
+
+Cable Converter:
+- UI tetap di cable_converter/cable_page.html dan dipanggil dari index shell.
+
+Shell UI (index.html):
+- Menu satu layer dengan panel iframe untuk cable, hpdb, dan boq.
+- Default panel masih TUTORIAL.
+
+Daftar endpoint lengkap:
+- Web UI:
+	- GET / (index.html)
+	- GET /boq (boq_page.html)
+- HPDB API:
+	- POST /api/session
+	- POST /api/session/<session_id>/step/1
+	- POST /api/session/<session_id>/step/2
+	- POST /api/session/<session_id>/step/3
+	- GET /api/session/<session_id>/download/<kind>
+	- POST /api/session/<session_id>/reset
+- BOQ API:
+	- POST /api/boq/session
+	- POST /api/boq/session/<session_id>/process
+	- GET /api/boq/session/<session_id>/download/<kind>
+	- POST /api/boq/session/<session_id>/reset
+
+Dependensi:
+- requirements.txt hanya berisi Flask.
+
+Catatan efisiensi:
+- Tidak ada dependency tambahan untuk BOQ web API.
+- File desktop yang tidak dipakai sudah dihapus.
+
+Catatan risiko yang tetap ada:
+- Parser KML BOQ masih non-rekursif (hanya 1 level subfolder).
+- Mapping baris injeksi BOQ tetap hard-coded mengikuti template Excel.

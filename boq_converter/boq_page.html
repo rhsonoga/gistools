@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KMZ to BoQ CONVERTER SYSTEM</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,300..800;1,300..800&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+    :root{
+      --bg-main:#111111;
+      --accent:#E95420;
+      --bg-btn:#3D3C3D;
+      --bg-dl:#2E7D32;
+      --run-gray:#3D3C3D;
+      --run-gray-border:#4a515b;
+      --run-green:#357f33;
+      --run-green-hover:#2f7a31;
+      --fg:#FFFFFF;
+      --log-bg:#1A1A1A;
+      --log-fg:#00FF00;
+    }
+    /* Let document flow naturally so parent can scroll; remove inner overflow */
+    html,body{height:auto;margin:0;font-family:'Ubuntu Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;background:var(--bg-main);color:var(--fg);overflow:visible}
+    /* Match HPDB layout: body provides page padding, container matches HPDB wrap width */
+    body{padding:26px 22px}
+    .container{width:100%;max-width:626px;margin:0;padding:0;background:transparent;box-sizing:border-box}
+    .status-panel{margin:0 0 12px;padding:12px 14px;border:1px solid #2f2f2f;background:linear-gradient(180deg, rgba(31, 35, 42, 0.95), rgba(22, 25, 30, 0.95))}
+    .status-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .status-title{font-size:15px;font-weight:800;color:#fff}
+    .status-subtitle{margin-top:4px;font-size:12px;color:#cfd5db}
+    .status-badge{min-width:72px;padding:6px 10px;border-radius:999px;text-align:center;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;border:1px solid transparent;box-sizing:border-box}
+    .status-badge.tone-idle{background:rgba(60, 66, 74, 0.8);color:#d9dee3;border-color:#4c5560}
+    .status-track{width:100%;height:8px;border-radius:999px;background:#2a2f36;overflow:hidden}
+    .status-fill{width:0%;height:100%;border-radius:inherit;background:linear-gradient(90deg, #e95420, #f08b4f, #9cd46a);transition:width 180ms ease}
+    .frame{background:transparent;padding:0;border-radius:0}
+    .input-row{display:flex;gap:8px;align-items:center}
+    .input-row input[type="text"]{flex:1;padding:8px;border:0;border-radius:0}
+    .btn{appearance:none;border:0;background:var(--bg-btn);color:var(--fg);padding:10px 14px;border-radius:0;font-weight:700;cursor:pointer}
+    .btn:hover{background:var(--accent)}
+    .process-row{display:flex;gap:8px;margin-top:14px}
+    .process-row .btn{
+      flex:1;
+      height:32px;
+      width:auto;
+      padding:0 14px;
+      border:1px solid var(--run-gray-border);
+      background:var(--run-gray);
+      color:#fff;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:0.2px;
+      border-radius:2px;
+      cursor:pointer;
+      text-transform:uppercase;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:none;
+    }
+    .process-row .btn:hover{
+      background:var(--run-green-hover);
+      border-color:var(--run-green-hover);
+      box-shadow:0 0 0 1px rgba(47, 122, 49, 0.24), 0 0 14px rgba(47, 122, 49, 0.24);
+    }
+    .process-row .btn:active{
+      background:var(--run-green-hover);
+      border-color:var(--run-green-hover);
+      box-shadow:0 0 0 1px rgba(47, 122, 49, 0.24), 0 0 14px rgba(47, 122, 49, 0.24);
+    }
+    .log-box{margin-top:12px;width:100%;display:flex;flex-direction:column;align-items:stretch}
+    .log-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px;padding-top:2px;width:100%;box-sizing:border-box}
+    .log-title{font-weight:700;padding-top:0}
+    .log-actions{display:flex;align-items:center;margin-left:auto}
+    .log-actions .small-btn{min-width:88px}
+    .log-area{width:100%;height:160px;background:var(--log-bg);color:var(--log-fg);padding:10px;box-sizing:border-box;border-radius:0;font-family:'Ubuntu Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;overflow:auto;white-space:pre-wrap}
+    .download-row{display:flex;gap:8px;margin-top:12px}
+    .small-btn{padding:8px 12px;border-radius:0}
+    .dl{background:var(--bg-dl)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="frame">
+      <section class="status-panel" aria-label="Status Proses">
+        <div class="status-head">
+          <div>
+            <div class="status-title">Siap menerima file KMZ.</div>
+            <div class="status-subtitle">Belum ada sesi aktif.</div>
+          </div>
+          <div class="status-badge tone-idle">IDLE</div>
+        </div>
+        <div class="status-track" aria-hidden="true">
+          <div class="status-fill"></div>
+        </div>
+      </section>
+
+      <div class="input-row" style="margin-top:8px">
+        <input id="kmzPath" type="text" placeholder="Pilih file KMZ atau drag & drop" readonly />
+        <input id="kmzFile" type="file" accept=".kmz" style="display:none" />
+        <button id="btnBrowse" class="btn">Browse</button>
+      </div>
+
+      <div class="process-row">
+        <button id="btnCluster" class="btn">PROSES CLUSTER</button>
+        <button id="btnFeeder" class="btn">PROSES FEEDER</button>
+      </div>
+
+      <div class="log-box">
+        <div class="log-header">
+          <div class="log-title">Log Report :</div>
+          <div class="log-actions">
+            <button id="btnReset" class="btn small-btn" style="background:#CE0000">RESET</button>
+          </div>
+        </div>
+        <div id="logArea" class="log-area">System Ready. Pilih file KMZ.</div>
+      </div>
+
+      <div class="download-row">
+        <button id="btnDlMid" class="btn dl" style="flex:1">Download Hasil Konversi</button>
+        <button id="btnDlFinal" class="btn dl" style="flex:1">Download BOQ Final</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
